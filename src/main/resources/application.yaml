@@ -1,0 +1,10 @@
+jdbc:
+  server: ${DB_SERVER_NAME}
+  port: ${DB_SERVER_PORT}
+  username: ${DB_USER_NAME}
+  password: ${DB_PASSWORD}
+  databaseName: ${DB_SCHEMA_NAME}
+  dataSourceClassName: com.microsoft.sqlserver.jdbc.SQLServerDataSource
+  poolSize: 1
+jwt:
+  expirationTime: 60 #minutes
