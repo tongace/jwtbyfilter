@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Slf4j
 @Component
-@Order(1)
+@Order(2)
 public class LoginFilter extends OncePerRequestFilter {
     @Value("${jwt.expirationTime}")
     private int cookieExpiredTime;
@@ -30,11 +30,6 @@ public class LoginFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         ApiResponse<String> resObj = new ApiResponse<>();
-        String requestUri = request.getRequestURI();
-        if(!StringUtils.equalsIgnoreCase(requestUri,"/login")){
-            filterChain.doFilter(request,response);
-            return;
-        }
         if(StringUtils.equalsIgnoreCase(request.getMethod(), HttpMethod.POST.toString())){
             Login login = new Gson().fromJson(request.getReader(),Login.class);
             try{

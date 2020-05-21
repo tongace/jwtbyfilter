@@ -16,8 +16,8 @@ class LoginFilterTest {
     TestRestTemplate testRestTemplate;
     @Test
     void testLogin(){
-        HttpEntity<Login> resquest = new HttpEntity<Login>(new Login("user","1234"));
+        HttpEntity<Login> resquest = new HttpEntity<Login>(new Login("csamphao","s123"));
         ResponseEntity<String> response = testRestTemplate.postForEntity("/login",resquest,String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED,response.getStatusCode());
+        assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 }

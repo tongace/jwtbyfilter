@@ -2,12 +2,10 @@ package com.application.authen;
 
 import com.application.exception.ApplicationException;
 import com.application.model.User;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.StringUtils;
 
 import java.security.Key;
 import java.util.Date;
@@ -31,7 +29,11 @@ public class TokenUtil {
     }
     public void verifyToken(String jwtToken) throws ApplicationException {
         try{
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parse(jwtToken);
+            if(StringUtils.isNotBlank(jwtToken)){
+                Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parse(jwtToken);
+            }else{
+                throw new ApplicationException("ML0001000005ERR");
+            }
         }catch (Exception e){
             throw new ApplicationException("ML0001000005ERR");
         }
