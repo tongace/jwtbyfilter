@@ -2,6 +2,7 @@ package com.application;
 
 import com.application.authen.AuthorizationFilter;
 import com.application.authen.LoginFilter;
+import com.application.authen.ResourceAccessibleFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -17,10 +18,13 @@ public class ServletInitializer extends SpringBootServletInitializer {
 		return application.sources(Application.class);
 	}
 	@Autowired
-	LoginFilter loginFilter;
+	private LoginFilter loginFilter;
 
 	@Autowired
-	AuthorizationFilter authorizationFilter;
+	private AuthorizationFilter authorizationFilter;
+
+	@Autowired
+	private ResourceAccessibleFilter resourceAccessibleFilter;
 
 	@Bean
 	FilterRegistrationBean<LoginFilter> loginFilter() {
@@ -35,6 +39,14 @@ public class ServletInitializer extends SpringBootServletInitializer {
 		FilterRegistrationBean<AuthorizationFilter> frb = new FilterRegistrationBean<AuthorizationFilter>();
 		frb.setFilter(authorizationFilter);
 		frb.setName("auth");
+		frb.setUrlPatterns(Arrays.asList("/*"));
+		return frb;
+	}
+	@Bean
+	FilterRegistrationBean<ResourceAccessibleFilter> resourceAccessibleFilter() {
+		FilterRegistrationBean<ResourceAccessibleFilter> frb = new FilterRegistrationBean<ResourceAccessibleFilter>();
+		frb.setFilter(resourceAccessibleFilter);
+		frb.setName("accessibleResources");
 		frb.setUrlPatterns(Arrays.asList("/*"));
 		return frb;
 	}

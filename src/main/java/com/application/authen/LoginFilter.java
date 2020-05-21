@@ -35,7 +35,7 @@ public class LoginFilter extends OncePerRequestFilter {
             try{
                 String jwt = loginSerice.login(login);
                 log.debug("token: >>>> "+jwt);
-                Cookie cookie = new Cookie("token",jwt);
+                Cookie cookie = new Cookie(TokenUtil.token_key,jwt);
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
                 cookie.setMaxAge(cookieExpiredTime*60);

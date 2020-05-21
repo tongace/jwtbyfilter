@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.application.mybatis.mapper.MenuMapper">
+    <select id="findAccessibleResourcesByScreenCds" resultType="com.application.authen.Menu">
+        SELECT MENU_GROUP.CD AS GROUP_NO,MENU_GROUP.[VALUE] AS GROUP_CD ,SCREEN.CD AS SCREEN_CD,
+        SCREEN.CD + ' : ' + SCREEN.[VALUE] AS SCREEN_NAME, SCREEN.REMARK AS URI
+        FROM TB_M_SYSTEM MENU_GROUP
+        INNER JOIN TB_M_SYSTEM SCREEN
+        ON MENU_GROUP.CATEGORY='MENU_GROUP' AND MENU_GROUP.STATUS = 'Y'
+        AND SCREEN.CATEGORY = 'SCREEN_MENU' AND SCREEN.STATUS = 'Y'
+        AND MENU_GROUP.[VALUE] = SUBSTRING(SCREEN.CD,1,2)
+        <where>
+            <if test="@org.apache.commons.lang3.ArrayUtils@isNotEmpty(accessibleScreenArr)">
+                AND SCREEN.CD IN
+                <foreach item="item" index="index" collection="accessibleScreenArr" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY MENU_GROUP.CD,SCREEN.CD
+    </select>
+</mapper>
